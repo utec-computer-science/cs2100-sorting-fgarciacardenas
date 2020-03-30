@@ -16,42 +16,52 @@ ostream& operator<<(ostream& os, const vector<T>& v)
     return os; 
 } 
 
-template <typename T>
-void swap(vector<T> &A, int &i){
+template <typename T> 
+void smallest(vector<T> &A, int &i, int &n, int &pos){
     // Element to be inserted
-    T temp = A[i];
-    int j = i - 1;
+    T min = A[i];
+    
+    // Reposition the selector
+    pos = i;
 
-    // Locate position to insert the element
-    while (j >= 0 && temp <= A[j]) {
-        A[j + 1] = A[j];
-        --j;
+    // Locate position of smallest element
+    for (int j = i + 1; j < n; ++j) {
+        if (min > A[j]) {
+            min = A[j];
+            pos = j;
+        }  
     }
-
-    // Insert the element
-    A[j + 1] = temp;
 }
 
-template <typename T>
-void insertionSort(vector<T> &A){ 
+template <typename T> 
+void selectionSort(vector<T> &A){ 
     // Calculate the size of the vector
     int n = A.size();
 
+    // Initialize the variables
+    int pos = 0;
+    T temp = 0;
+
     // Sort the values of the vector
     for (int i = 0; i < n; ++i) {
-        swap(A, i);
+        smallest(A, i, n, pos);
+        
+        // Swap with smallest element
+        temp = A[i];
+        A[i] = A[pos];
+        A[pos] = temp;
     }
 }
 
 int main(int, char*[]){
     // Insert the vector for testing
-    // vector<int> vec{ 11, 17, 1, 7, 13, 8, 19, 4, 2 }; 
-    vector<double> vec{ 11.3, 17.1, 2.5, 4.4, 13, 8.1, 19.6, 3, 7.03 };
-
+    // vector<int> vec{ 13, 17, 2, 4, 11, 8, 19, 3, 7 };
+    vector<double> vec{ 11.3, 17.1, 2.5, 4.4, 13, 8.1, 19.6, 3, 7.03 }; 
+    
     // Print the original vector 
     cout << "Original vector: " << vec; 
 
-    insertionSort(vec);
+    selectionSort(vec);
 
     // Print the resulting vector 
     cout << "Sorted vector: " << vec; 
