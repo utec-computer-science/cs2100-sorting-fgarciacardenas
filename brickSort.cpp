@@ -17,23 +17,27 @@ ostream& operator<<(ostream& os, const vector<T>& v)
 }
 
 template <typename T>
-void shellSort(vector<T> &A, int n){    
-    // Begin with a big step and reduce it by half each time
-    for(int step = n/2; step > 0; step /= 2) {
-
-        // Gapped insertion sort for the current step
-        for(int j = step; j < n; j++) {
-            
-            // Shift elements until the correct position is found
-            for(int k = j - step; k >= 0; k -= step) {
-                if(A[k + step] >= A[k]) {
-                    break;
-                }
-                else {
-                    swap(A[k + step], A[k]);
-                }
-            }
-        }
+void brickSort(vector<T> &A, int n) {    
+    bool stop = false;
+    
+    while (!stop) { 
+        stop = true; 
+  
+        // Bubble sort odd elements 
+        for (int i = 1; i <= n - 2; i = i + 2) { 
+            if (A[i] > A[i + 1]) { 
+                swap(A[i], A[i + 1]); 
+                stop = false; 
+            } 
+        } 
+  
+        // Bubble sort even elements
+        for (int i = 0; i <= n - 2; i = i + 2) { 
+            if (A[i] > A[i + 1]) { 
+                swap(A[i], A[i + 1]); 
+                stop = false; 
+            } 
+        } 
     }
 }
 
@@ -48,7 +52,7 @@ int main(int, char*[]){
     // Print the original vector 
     cout << "Original vector: " << vec; 
 
-    shellSort(vec, n);
+    brickSort(vec, n);
 
     // Print the resulting vector 
     cout << "Sorted vector: " << vec; 
